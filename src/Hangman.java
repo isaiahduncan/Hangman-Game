@@ -76,22 +76,36 @@ public class Hangman {
 	}
 	
 	public static String hideSecret(String secret) {
+		StringBuffer hidden = new StringBuffer(secret);
 		
+		for(int i = 0; i < hidden.length(); i++) {
+			if(Character.isLetter(hidden.charAt(i))) {
+				hidden.deleteCharAt(i);
+				hidden.insert(i, '_');
+			}
+		}
 		
-		return secret;
+		return hidden.toString();
 		
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String [] wordsAndPhrases = {"I love Computer Science", "Isaiah is awesome", "Google", "Amazon", "Japan is Beautiful"};
+		String [] wordsAndPhrases = {"I love Computer Science!", "Isaiah is awesome!", "Google", "Amazon", "Japan is Beautiful!", "Air bnb", "New York", "Los Angelas", "Isaiah will live joyfully in Tokyo soon"};
+		String word = wordsAndPhrases[(int) (Math.random()*wordsAndPhrases.length)];
 		System.out.println("Welcome to Hangman!");
 		
-		String secret = wordsAndPhrases[(int) (Math.random()*wordsAndPhrases.length)];
+		boolean done = false;
+		
+		
+		do {
 		
 		consoleDraw();
-		System.out.println(hideSecret(secret));
+		System.out.println(hideSecret(word));
 		
+		}while (false);
+		
+		System.out.println(word);
 		
 		
 	}
