@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.util.concurrent.Executors;
+
 /**
  * 
  */
@@ -106,6 +109,23 @@ public class Hangman {
 		}while (false);
 		
 		System.out.println(word);
+					
+			Runnable r = new Runnable() {
+				public void run() {
+					try {
+						System.out.println("This Happened");
+						Process p = Runtime.getRuntime().exec("sh -c ls");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						System.out.println("Something went wrong");
+						e.printStackTrace();
+					}
+				}
+			};
+			Executors.newSingleThreadExecutor().submit(r);
+			 
+			
+		
 		
 		
 	}
