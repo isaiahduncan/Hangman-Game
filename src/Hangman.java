@@ -110,7 +110,7 @@ public class Hangman {
 		
 		System.out.println(word);
 					
-			Runnable r = new Runnable() {
+			Runnable r = new Runnable() {//Trying to figure out how to run shell commands from java
 				public void run() {
 					try {
 						System.out.println("This Happened");
