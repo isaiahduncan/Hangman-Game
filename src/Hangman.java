@@ -1,6 +1,6 @@
 import java.io.IOException;
 import java.util.concurrent.Executors;
-
+import java.util.Scanner;
 /**
  * 
  */
@@ -14,11 +14,11 @@ public class Hangman {
 	/**
 	 * @param args
 	 */
-	private static int wguesses = 0, nguesses = 6;//wrong guesses and num guesses
+	private static int guesses = 6;// num guesses
 	public static void consoleDraw() {
 		
-		switch (wguesses) {
-			case 0 :
+		switch (guesses) {
+			case 6 :
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |      ");
@@ -26,7 +26,7 @@ public class Hangman {
 				System.out.println("     |      ");
 				System.out.println("  ___|___   ");
 				break;
-			case 1 : 
+			case 5 : 
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |  o   ");
@@ -34,7 +34,7 @@ public class Hangman {
 				System.out.println("     |      ");
 				System.out.println("  ___|___   ");
 				break;
-			case 2 :
+			case 4 :
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |  o   ");
@@ -50,7 +50,7 @@ public class Hangman {
 				System.out.println("     |      ");
 				System.out.println("  ___|___   ");
 				break;
-			case 4 : 
+			case 2 : 
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |  o   ");
@@ -58,7 +58,7 @@ public class Hangman {
 				System.out.println("     |      ");
 				System.out.println("  ___|___   ");
 				break;
-			case 5 : 
+			case 1 : 
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |  o   ");
@@ -66,7 +66,7 @@ public class Hangman {
 				System.out.println("     | /    ");
 				System.out.println("  ___|___   ");
 				break;
-			case 6 :
+			case 0 :
 				System.out.println("      __    ");
 				System.out.println("     |  |   ");
 				System.out.println("     |  o   ");
@@ -78,7 +78,7 @@ public class Hangman {
 
 	}
 	
-	public static String hideSecret(String secret) {
+	public static StringBuffer hideSecret(String secret) {
 		StringBuffer hidden = new StringBuffer(secret);
 		
 		for(int i = 0; i < hidden.length(); i++) {
@@ -88,8 +88,25 @@ public class Hangman {
 			}
 		}
 		
-		return hidden.toString();
+		return hidden;
 		
+	}
+	
+	public static StringBuffer makeGuess(String word, StringBuffer hidden, String guess) {
+		
+		if(guess.equals(word)) {
+			return new StringBuffer(word);
+		}
+		
+		int pos = 0;
+		while((pos = word.indexOf(guess, pos)) != -1) {//moving pos the the next instance of the guess
+			
+			hidden.replace(pos, pos+guess.length(), guess);//doing replacement in the hidden string
+			
+			pos += guess.length();//advancing pos so that we don't detect the same instance of the guess
+		}
+		
+		return hidden;
 	}
 	
 	public static void main(String[] args) {
@@ -99,22 +116,49 @@ public class Hangman {
 		System.out.println("Welcome to Hangman!");
 		
 		boolean done = false;
+		StringBuffer hidden = hideSecret(word);//this will be displayed for the player
+		String guess, before; 
 		
+		Scanner scan = new Scanner(System.in);
 		
 		do {
+		before = hidden.toString(); 
+		System.out.println("You have " + guesses + " remaining guesses");
 		
-		consoleDraw();
-		System.out.println(hideSecret(word));
+		consoleDraw();//showing the player the state of the hangman
 		
-		}while (false);
+		System.out.println(hidden);//showing the hidden word which reveals more with more correct guesses
+		System.out.println("\nMake a Guess!");//prompting for a guess
 		
-		System.out.println(word);
+		guess = scan.nextLine();//taking in the guess
+		makeGuess(word, hidden, guess);
+		
+		if(before.equals(hidden.toString())) {
+			System.out.println("You Guessed Incorrectly!");
+			guesses--;
+		}
+		if(hidden.toString().equals(word)) {
+			done = true;
+		}
+		if(guesses == 0) {
+			break;
+		}
+		
+		}while (!done);
+		
+		if(done) {
+			System.out.println("Congratulations! You Won!!!");
+		}else {
+			System.out.println("You ran out of guesses. Better luck next time!");
+		}
+		
+		System.out.println("The hidden word was "+word);
 					
 			Runnable r = new Runnable() {//Trying to figure out how to run shell commands from java
 				public void run() {
 					try {
 						System.out.println("This Happened");
-						Process p = Runtime.getRuntime().exec("sh -c ls");
+						Process p = Runtime.getRuntime().exec("sh -c ls ");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						System.out.println("Something went wrong");
