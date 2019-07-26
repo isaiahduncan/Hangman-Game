@@ -99,9 +99,9 @@ public class Hangman {
 		}
 		
 		int pos = 0;
-		while((pos = word.indexOf(guess, pos)) != -1) {//moving pos the the next instance of the guess
+		while((pos = word.toLowerCase().indexOf(guess.toLowerCase(), pos)) != -1) {//moving pos the the next instance of the guess
 			
-			hidden.replace(pos, pos+guess.length(), guess);//doing replacement in the hidden string
+			hidden.replace(pos, pos+guess.length(), word.substring(pos, pos+guess.length()));//doing replacement in the hidden string
 			
 			pos += guess.length();//advancing pos so that we don't detect the same instance of the guess
 		}
@@ -152,7 +152,7 @@ public class Hangman {
 			System.out.println("You ran out of guesses. Better luck next time!");
 		}
 		
-		System.out.println("The hidden word was "+word);
+		System.out.println("The hidden word was \""+word+"\"");
 					
 			Runnable r = new Runnable() {//Trying to figure out how to run shell commands from java
 				public void run() {
