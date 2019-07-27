@@ -1,5 +1,5 @@
-import java.io.IOException;
-import java.util.concurrent.Executors;
+//import java.io.IOException;
+//import java.util.concurrent.Executors;
 import java.util.Scanner;
 /**
  * 
@@ -92,7 +92,8 @@ public class Hangman {
 		
 	}
 	
-	public static StringBuffer makeGuess(String word, StringBuffer hidden, String guess) {
+	public static StringBuffer makeGuess(String word, StringBuffer hidden, Scanner scan) {
+		String guess = scan.nextLine();
 		
 		if(guess.equals(word)) {
 			return new StringBuffer(word);
@@ -112,12 +113,13 @@ public class Hangman {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String [] wordsAndPhrases = {"I love Computer Science!", "Isaiah is awesome!", "Google", "Amazon", "Japan is Beautiful!", "Air bnb", "New York", "Los Angelas", "Isaiah will live joyfully in Tokyo soon"};
+		
 		String word = wordsAndPhrases[(int) (Math.random()*wordsAndPhrases.length)];
 		System.out.println("Welcome to Hangman!");
 		
 		boolean done = false;
 		StringBuffer hidden = hideSecret(word);//this will be displayed for the player
-		String guess, before; 
+		String before; 
 		
 		Scanner scan = new Scanner(System.in);
 		
@@ -130,8 +132,7 @@ public class Hangman {
 		System.out.println(hidden);//showing the hidden word which reveals more with more correct guesses
 		System.out.println("\nMake a Guess!");//prompting for a guess
 		
-		guess = scan.nextLine();//taking in the guess
-		makeGuess(word, hidden, guess);
+		makeGuess(word, hidden, scan);
 		
 		if(before.equals(hidden.toString())) {
 			System.out.println("You Guessed Incorrectly!");
@@ -154,7 +155,8 @@ public class Hangman {
 		
 		System.out.println("The hidden word was \""+word+"\"");
 					
-			Runnable r = new Runnable() {//Trying to figure out how to run shell commands from java
+			/*
+			 Runnable r = new Runnable() {//Trying to figure out how to run shell commands from java
 				public void run() {
 					try {
 						System.out.println("This Happened");
@@ -167,7 +169,7 @@ public class Hangman {
 				}
 			};
 			Executors.newSingleThreadExecutor().submit(r);
-			 
+			 */
 			
 		
 		
